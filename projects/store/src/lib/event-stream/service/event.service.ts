@@ -42,13 +42,7 @@ export class EventService {
     }
     const subscription = this.event$
       .pipe(
-        tap((e) => {
-          console.log(e);
-        }),
         skip(1),
-        tap((e) => {
-          console.log(type);
-        }),
         map(event => event.event),
         filter(event => event && typeof event !== 'string' && (getConstructor(event) === type))
       )

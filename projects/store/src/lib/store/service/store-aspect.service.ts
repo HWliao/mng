@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import { ReducersMapObject } from 'redux';
-import { distinctUntilChanged, map, publishBehavior, share } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Aspect, registerPointcut } from '../../aop/aop.service';
 import { getConstructor, warning } from '../../tools';
 import { getModel } from '../annotation/model.annotation';
@@ -51,13 +51,10 @@ export class StoreAspect implements Aspect {
       const stateKey = selectMd.key;
       const model = getModel(selectMd.model);
       const modelName = model.config.name;
-      let initState = this.store.getState()[modelName];
-      initState = stateKey ? initState[stateKey] : initState;
       const proxy$ = this.store.getState$().pipe(
         map(state => state[modelName]),
         map(modelState => stateKey ? modelState[stateKey] : modelState),
-        distinctUntilChanged(),
-        share()
+        distinctUntilChanged()
       );
       Reflect.defineProperty(target, propertyKey, {
         set: () => { warning(`${propertyKey} 不能赋值`); },
