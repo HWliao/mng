@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "store": [
+        "projects/store/src"
+      ],
+      "store/*": [
+        "projects/store/src/*"
+      ]
+    }
   }
 }
