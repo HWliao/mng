@@ -164,6 +164,142 @@
           }
         }
       }
+    },
+    "antd": {
+      "root": "projects/antd/",
+      "sourceRoot": "projects/antd/src",
+      "projectType": "application",
+      "prefix": "mz",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "less"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/antd",
+            "index": "projects/antd/src/index.html",
+            "main": "projects/antd/src/main.ts",
+            "polyfills": "projects/antd/src/polyfills.ts",
+            "tsConfig": "projects/antd/tsconfig.app.json",
+            "assets": [
+              "projects/antd/src/favicon.ico",
+              "projects/antd/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
+                "output": "/assets/"
+              }
+            ],
+            "styles": [
+              "projects/antd/src/styles.less"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/antd/src/environments/environment.ts",
+                  "with": "projects/antd/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "antd:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "antd:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "antd:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/antd/src/test.ts",
+            "polyfills": "projects/antd/src/polyfills.ts",
+            "tsConfig": "projects/antd/tsconfig.spec.json",
+            "karmaConfig": "projects/antd/karma.conf.js",
+            "styles": [
+              "projects/antd/src/styles.less"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/antd/src/favicon.ico",
+              "projects/antd/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/antd/tsconfig.app.json",
+              "projects/antd/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "antd-e2e": {
+      "root": "projects/antd-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/antd-e2e/protractor.conf.js",
+            "devServerTarget": "antd:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "antd:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/antd-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "mng"
