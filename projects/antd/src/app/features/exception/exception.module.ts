@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ExceptionModule as ExceptionCModule } from '../../common/exception/exception.module';
+import { NgModule } from '@angular/core';
+import { ExceptionModule as ExceptionCModule } from '../../components/exception/exception.module';
 import { ExceptionRoutingModule } from './exception-routing.module';
+
 
 @NgModule({
   declarations: [],

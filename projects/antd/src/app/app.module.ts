@@ -1,17 +1,17 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgZorroAntdModule, NZ_I18N, zh_CN } from 'ng-zorro-antd';
+import { registerLocaleData, i18nProviders } from './core/i18n/i18n.service';
 import { FormsModule } from '@angular/forms';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { registerLocaleData } from '@angular/common';
-import zh from '@angular/common/locales/zh';
-import { ExceptionModule } from './common/exception/exception.module';
+import { AppInitializer } from './core/app-init';
+import { titleProviders } from './core/title/title.service';
 
-registerLocaleData(zh);
+
+registerLocaleData();
 
 @NgModule({
   declarations: [
@@ -20,15 +20,15 @@ registerLocaleData(zh);
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgZorroAntdModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    BrowserAnimationsModule,
-    ExceptionModule
+    NgZorroAntdModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'zh-Hans' },
-    { provide: NZ_I18N, useValue: zh_CN }
+    ...i18nProviders,
+    ...titleProviders,
+    AppInitializer
   ],
   bootstrap: [AppComponent]
 })
