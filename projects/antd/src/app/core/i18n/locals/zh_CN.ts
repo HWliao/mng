@@ -7,7 +7,7 @@ export const zh_CN = {
     500: '500',
     lock: '锁定',
     login: '登录',
-    registered: '注册',
+    register: '注册',
     result: '结果'
   }
 };
