@@ -9,8 +9,10 @@ import { LockComponent } from './lock/lock.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { LayoutModule } from '../../../components/layout/layout.module';
 
+const COMPONENTS = [PassportLayoutComponent, LoginComponent, RegisterComponent, RegisterResultComponent, LockComponent];
+
 @NgModule({
-  declarations: [PassportLayoutComponent, LoginComponent, RegisterComponent, RegisterResultComponent, LockComponent],
+  declarations: [...COMPONENTS],
   imports: [
     CommonModule,
     PassportRoutingModule,

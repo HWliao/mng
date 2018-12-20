@@ -1,0 +1,35 @@
+@import '../../../../styles/themes/default';
+
+@global-footer-prefix: ~'.global-footer';
+
+:host@{global-footer-prefix} {
+  display: block;
+  padding: 0 16px;
+  margin: 48px 0 24px;
+  text-align: center;
+}
+
+@{global-footer-prefix} {
+  &__links {
+    margin-bottom: 8px;
+
+    &-item {
+      display: inline-block;
+      color: @text-color-secondary;
+      transition: all 0.3s;
+
+      &:not(:last-child) {
+        margin-right: 40px;
+      }
+
+      &:hover {
+        color: @text-color;
+      }
+    }
+  }
+
+  &__copyright {
+    color: @text-color-secondary;
+    font-size: @font-size-base;
+  }
+}

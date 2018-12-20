@@ -9,6 +9,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { HttpClientModule } from '@angular/common/http';
 import { AppInitializer } from './core/app-init';
 import { titleProviders } from './core/title/title.service';
+import { globalProviders } from './core/global';
 
 
 registerLocaleData();
@@ -26,10 +27,12 @@ registerLocaleData();
     NgZorroAntdModule
   ],
   providers: [
+    ...globalProviders,
     ...i18nProviders,
     ...titleProviders,
     AppInitializer
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
