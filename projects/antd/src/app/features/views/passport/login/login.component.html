@@ -1,3 +1,42 @@
-<p>
-  login works!
-</p>
+<form nz-form [formGroup]="form" (ngSubmit)="onSubmit()" role="form">
+  <nz-form-item>
+    <nz-form-control nzHasFeedback>
+      <nz-input-group [nzSize]="'large'" [nzPrefix]="prefixUser">
+        <input type="text" nz-input formControlName="userName" placeholder="用户名"/>
+      </nz-input-group>
+      <nz-form-explain *ngIf="userName.dirty && userName.errors">请输入用户名</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzHasFeedback>
+      <nz-input-group [nzSize]="'large'" [nzPrefix]="prefixLock">
+        <input type="password" nz-input formControlName="password" placeholder="密码"/>
+      </nz-input-group>
+      <nz-form-explain *ngIf="password.dirty && password.errors">请输入密码</nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-col [nzSpan]="12">
+        <label nz-checkbox [nzChecked]="true">自动登录</label>
+      </nz-col>
+      <nz-col [nzSpan]="12" class="text-right">
+        <a>忘记密码</a>
+      </nz-col>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button type="submit" nz-button [nzSize]="'large'" [nzType]="'primary'" nzBlock>登入</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+<div class="other">
+  其他登录方式
+  <i title="in fact Auth0 via window" nz-icon type="alipay-circle"></i>
+  <i title="in fact Github via redirect" nz-icon type="taobao-circle"></i>
+  <i title="真的是微博" nz-icon type="weibo-circle"></i>
+  <a class="register" routerLink="/passport/register">注册账户</a>
+</div>

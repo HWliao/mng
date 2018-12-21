@@ -8,6 +8,7 @@ import { RegisterResultComponent } from './register-result/register-result.compo
 import { LockComponent } from './lock/lock.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { LayoutModule } from '../../../components/layout/layout.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const COMPONENTS = [PassportLayoutComponent, LoginComponent, RegisterComponent, RegisterResultComponent, LockComponent];
 
@@ -17,7 +18,8 @@ const COMPONENTS = [PassportLayoutComponent, LoginComponent, RegisterComponent, 
     CommonModule,
     PassportRoutingModule,
     NgZorroAntdModule,
-    LayoutModule
+    LayoutModule,
+    ReactiveFormsModule
   ]
 })
 export class PassportModule {
