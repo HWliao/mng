@@ -1,1 +1,122 @@
 @import '~ng-zorro-antd/src/style/mixins/index.less';
+
+// Color contrast
+.color-yiq(@color) {
+
+  .yiq-mixin (@v) when (@v >= 150) {
+    color: #111;
+  }
+  .yiq-mixin (@v) when (default()) {
+    color: #fff;
+  }
+
+  @r: red(@color);
+  @g: green(@color);
+  @b: blue(@color);
+
+  @yiq: ((@r * 299) + (@g * 587) + (@b * 114)) / 1000;
+  .yiq-mixin(@yiq);
+}
+
+// Basic loop
+.for(@adList, @adCode) {
+  & {
+    .loop(@adI:1) when (@adI =< length(@adList)) {
+      @adIndex: @adI - 1;
+      @adItem: extract(@adList, @adI);
+
+      @adCode();
+
+      .loop(@adI + 1);
+    }
+    .loop();
+  }
+}
+
+.for-each(@adList, @adCode) {
+  & {
+    .loop(@adI:1) when (@adI =< length(@adList)) {
+      @adIndex: @adI - 1;
+      @adItem: extract(@adList, @adI);
+      @adKey: extract(@adItem, 1);
+      @adValue: extract(@adItem, 2);
+
+      @adCode();
+
+      .loop(@adI + 1);
+    }
+    .loop();
+  }
+}
+
+.text-truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.textOverflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  white-space: nowrap;
+}
+
+.textOverflowMulti(@line: 3, @bg: #fff) {
+  overflow: hidden;
+  position: relative;
+  line-height: 1.5em;
+  max-height: @line * 1.5em;
+  text-align: justify;
+  margin-right: -1em;
+  padding-right: 1em;
+  &:before {
+    background: @bg;
+    content: '...';
+    padding: 0 1px;
+    position: absolute;
+    right: 14px;
+    bottom: 0;
+  }
+  &:after {
+    background: white;
+    content: '';
+    margin-top: 0.2em;
+    position: absolute;
+    right: 14px;
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.freakMixin() {
+  @functions: ~`(function() {
+        function toColorList(list) {
+            list = list.slice(1, list.length - 1).split(',');
+            var ret = [];
+            for (var i = 0, c = list.length; i < c; i++) {
+                ret.push(list[i].trim().split(' '));
+            }
+            return ret;
+        }
+
+        var catchColors;
+        function _initColor(list) {
+            if (!catchColors) catchColors = toColorList(list);
+        }
+
+        this.getColor = function(list, name, position) {
+            _initColor(list);
+            var ret = '';
+            for (var i = 0, c = catchColors.length; i < c; i++) {
+                if (catchColors[i][0] === name) {
+                    ret = catchColors[i][position - 1];
+                    break;
+                }
+            }
+            return ret;
+        }
+    })()`;
+}
+
+.freakMixin();

@@ -1,5 +1,21 @@
+@import "~projects/antd/src/styles/themes/default";
+
 :host {
   display: block;
   width: 368px;
   margin: 0 auto;
+
+  .other {
+    [nz-icon] {
+      font-size: @icon-sm;
+      color: rgba(0, 0, 0, 0.2);
+      margin-left: @md;
+      vertical-align: middle;
+      cursor: pointer;
+      transition: color 0.3s;
+      &:hover {
+        color: @primary-color;
+      }
+    }
+  }
 }
