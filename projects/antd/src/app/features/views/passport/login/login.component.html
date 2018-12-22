@@ -6,7 +6,8 @@
       </nz-input-group>
       <nz-form-explain *ngIf="userName.dirty && userName.errors">
         <ng-container *ngIf="userName.hasError('required')">请输入用户名</ng-container>
-        <ng-container *ngIf="userName.hasError('minlength')">至少输入{{userName.errors.requiredLength}}个字符</ng-container>
+        <ng-container *ngIf="userName.hasError('minlength')">至少输入{{userName.errors.minlength.requiredLength}}个字符
+        </ng-container>
       </nz-form-explain>
     </nz-form-control>
   </nz-form-item>
@@ -24,7 +25,7 @@
         <label nz-checkbox [nzChecked]="true">自动登录</label>
       </nz-col>
       <nz-col [nzSpan]="12" class="text-right">
-        <a>忘记密码</a>
+        <a (click)="forgetPassword()">忘记密码</a>
       </nz-col>
     </nz-form-control>
   </nz-form-item>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'mz-login',
@@ -10,7 +11,7 @@ export class LoginComponent {
 
   form: FormGroup;
 
-  constructor(fb: FormBuilder) {
+  constructor(fb: FormBuilder, private msg: NzMessageService) {
     this.form = fb.group({
       userName: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', Validators.required]
@@ -31,5 +32,9 @@ export class LoginComponent {
       this.form.controls[key].updateValueAndValidity();
     }
     console.log(this.form);
+  }
+
+  forgetPassword() {
+    this.msg.info("userName/password: admin/admin");
   }
 }
