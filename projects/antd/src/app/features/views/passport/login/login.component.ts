@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
+import { LoginController } from '../../../controllers/passport/login.controller';
 
 @Component({
   selector: 'mz-login',
@@ -10,11 +11,18 @@ import { NzMessageService } from 'ng-zorro-antd';
 export class LoginComponent {
 
   form: FormGroup;
+  error = '';
+  submitting = false;
 
-  constructor(fb: FormBuilder, private msg: NzMessageService) {
+  constructor(
+    fb: FormBuilder,
+    private msg: NzMessageService,
+    private login: LoginController
+  ) {
     this.form = fb.group({
       userName: ['', [Validators.required, Validators.minLength(5)]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      remenberMe: [true]
     });
   }
 
@@ -31,10 +39,15 @@ export class LoginComponent {
       this.form.controls[key].markAsDirty();
       this.form.controls[key].updateValueAndValidity();
     }
-    console.log(this.form);
+    if (!this.form.valid) {
+      return;
+    }
+    this.submitting = true;
+    this.login.authentication(this.form)
+      .finally(() => this.submitting = false)
+      .catch(err => this.error = err);
   }
-
   forgetPassword() {
-    this.msg.info("userName/password: admin/admin");
+    this.msg.info("user/pwd: admin/admin");
   }
 }
