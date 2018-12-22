@@ -24,7 +24,7 @@
   .text-@{adKey}-dark      { color: extract(@adItem, @color-dark-position) !important; }
 });
 
-.for-each(@aliasColors, {
+.for-each(@them-colors, {
   .bg-@{adKey}-light  { background-color: ~`getColor("@{colors}", "@{adValue}", @{color-light-position})` !important; }
   .bg-@{adKey}        { background-color: ~`getColor("@{colors}", "@{adValue}", @{color-basic-position})` !important; }
   .bg-@{adKey}-dark   { background-color: ~`getColor("@{colors}", "@{adValue}", @{color-dark-position})` !important; }
@@ -36,13 +36,6 @@
   .text-@{adKey}-light  { color: ~`getColor("@{colors}", "@{adValue}", @{color-light-position})` !important; }
   .text-@{adKey}        { color: ~`getColor("@{colors}", "@{adValue}", @{color-basic-position})` !important; }
   .text-@{adKey}-dark   { color: ~`getColor("@{colors}", "@{adValue}", @{color-dark-position})` !important; }
-});
-
-// grey
-.for-each(@greyColorer, {
-  .bg-grey-@{adKey}     { background-color: @adValue !important; }
-  .bg-grey-@{adKey}-h   { &:hover { background-color: @adValue !important; } }
-  .text-grey-@{adKey}   { color: @adValue !important; }
 });
 
 .all-colors-minin(@enabled) when (@enabled = true) {

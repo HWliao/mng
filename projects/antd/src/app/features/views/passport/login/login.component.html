@@ -4,7 +4,10 @@
       <nz-input-group [nzSize]="'large'" [nzPrefix]="prefixUser">
         <input type="text" nz-input formControlName="userName" placeholder="用户名"/>
       </nz-input-group>
-      <nz-form-explain *ngIf="userName.dirty && userName.errors">请输入用户名</nz-form-explain>
+      <nz-form-explain *ngIf="userName.dirty && userName.errors">
+        <ng-container *ngIf="userName.hasError('required')">请输入用户名</ng-container>
+        <ng-container *ngIf="userName.hasError('minlength')">至少输入{{userName.errors.requiredLength}}个字符</ng-container>
+      </nz-form-explain>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>

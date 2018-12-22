@@ -5,26 +5,20 @@
 @border-color: @border-color-split;
 @border-grids:
   sm @border-radius-sm,
-  md @border-radius-md,
-  lg @border-radius-lg;
+  md @border-radius-base,
+  lg @border-radius-base + 2px;
 
-.border { border: 1px solid @border-color !important; }
+.border         { border: @border-width-base @border-style-base @border-color-split !important; }
+.border-top     { border-top: @border-width-base @border-style-base @border-color-split !important; }
+.border-right   { border-right: @border-width-base @border-style-base @border-color-split !important; }
+.border-bottom  { border-bottom: @border-width-base @border-style-base @border-color-split !important; }
+.border-left    { border-left: @border-width-base @border-style-base @border-color-split !important; }
 
-@border-width-list: 0, 1;
-.for(@border-width-list, {
-  .border-css-mixin(@i) when(@i > 0) {
-    @css-value: ~"@{i}px solid @{border-color}";
-  }
-  .border-css-mixin(@i) when(default()) {
-    @css-value: 0;
-  }
-  .border-css-mixin(@adIndex);
-  .border-@{adIndex}        { border: @css-value !important; }
-  .border-top-@{adIndex}    { border-top: @css-value !important; }
-  .border-right-@{adIndex}  { border-right: @css-value !important; }
-  .border-bottom-@{adIndex} { border-bottom: @css-value !important; }
-  .border-left-@{adIndex}   { border-left: @css-value !important; }
-});
+.border-0        { border: 0 !important; }
+.border-top-0    { border-top: 0 !important; }
+.border-right-0  { border-right: 0 !important; }
+.border-bottom-0 { border-bottom: 0 !important; }
+.border-left-0   { border-left: 0 !important; }
 
 // color
 .for-each(@colors, {
@@ -33,9 +27,9 @@
   }
 });
 
-.for-each(@aliasColors, {
+.for-each(@them-colors, {
   .border-@{adKey} {
-    border-color: ~`getColor("@{colors}", "@{adValue}", @{color-basic-position})` !important;
+    border-color: @adValue !important;
   }
 });
 
@@ -59,3 +53,6 @@
 .rounded-0 {
   border-radius: 0;
 }
+
+
+
