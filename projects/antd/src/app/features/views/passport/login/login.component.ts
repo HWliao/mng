@@ -13,7 +13,7 @@ import { LoginAuthentication, LoginInit } from '../../../models/state/passport/l
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  @Select(LoginModel)
+  @Select()
   login: LoginModel;
 
   constructor(

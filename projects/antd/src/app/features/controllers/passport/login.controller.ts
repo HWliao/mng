@@ -6,7 +6,7 @@ import { LoginModel } from '../../models/state/passport/login.model';
 @Injectable({ providedIn: 'root' })
 export class LoginController implements OnDestroy {
 
-  @Store(LoginModel)
+  @Store()
   login: LoginModel;
 
   constructor(aop: AopService) {
