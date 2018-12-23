@@ -18,7 +18,8 @@ export class StoreAspect implements Aspect {
    */
   private metadata: { [key: string]: ModelMetadata } = {};
 
-  constructor(private store: StoreService) { }
+  constructor(private store: StoreService) {
+  }
 
   /**
    * 对目标对象进行编织
@@ -57,7 +58,9 @@ export class StoreAspect implements Aspect {
         distinctUntilChanged()
       );
       Reflect.defineProperty(target, propertyKey, {
-        set: () => { warning(`${propertyKey} 不能赋值`); },
+        set: () => {
+          warning(`${propertyKey} 不能赋值`);
+        },
         get: () => proxy$,
         enumerable: true
       });
@@ -78,14 +81,16 @@ export class StoreAspect implements Aspect {
 
       model.stateKeys.forEach(stateKey => {
         Reflect.defineProperty(proxy, stateKey, {
-          set: (v: any) => { warning(`${propertyKey} 不能赋值`); },
+          set: (v: any) => this.store.dispatch(createAction(`${modelName}.${stateKey}`, [v])),
           get: () => this.store.getState()[modelName][stateKey],
           enumerable: true
         });
       });
       model.actionKeys.forEach(actionKey => {
         Reflect.defineProperty(proxy, actionKey, {
-          set: () => { warning(`${propertyKey}不能赋值`); },
+          set: () => {
+            warning(`${propertyKey}不能赋值`);
+          },
           get: () => (...args: any[]) => this.store.dispatch(createAction(`${modelName}.${actionKey}`, args)),
           enumerable: true
         });
@@ -97,6 +102,7 @@ export class StoreAspect implements Aspect {
       });
     };
   }
+
   /**
    * 搜集目标对象上的元数据,并注册reducers
    * @param mds 元数据
