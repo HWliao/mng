@@ -20,10 +20,10 @@
     ],
     "paths": {
       "store": [
-        "projects/store/src"
+        "dist/store"
       ],
       "store/*": [
-        "projects/store/src/*"
+        "dist/store/*"
       ]
     }
   }
