@@ -6,14 +6,16 @@ import { registerEventPointcut } from '../service/event.aspect';
 /**
  * 订阅
  */
-export function Subscribe(EventType: Type<any>) {
+export function Subscribe(EventType?: Type<any>) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    checkArgument(typeof target[propertyKey] === 'function', `[event-stream]subscribe 标记的${propertyKey}必须为实例方法`);
+    checkArgument(typeof target[propertyKey] === 'function', `subscribe 标记的${propertyKey}必须为实例方法`);
 
     const params: any[] = Reflect.getOwnMetadata(DESIGN_PARAMTYPES, target, propertyKey);
+    // 如果未指定参数,则使用第一个参数类型作为EventType
+    EventType = EventType ? EventType : params && params[0] ? params[0] : null;
     checkArgument(
-      params && params.length === 1 && params[0] === EventType,
-      `[event-stream]subscribe method ${propertyKey} 只能有一个参数,且类型必须与订阅类型一致`
+      params && params.length === 1 && typeof params[0] === 'function' && params[0] === EventType,
+      `subscribe method ${propertyKey} 只能有一个参数,且类型必须与订阅类型一致`
     );
 
     const constructor = target.constructor;

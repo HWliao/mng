@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
-import { DESIGN_RETURNTYPE } from '../../design-metadata';
-import { MD_EVENT_PUB_ADVICE, PublishMetadata, checkArgument, warning } from '../definitions';
+import { checkArgument, MD_EVENT_PUB_ADVICE, PublishMetadata, warning } from '../definitions';
 import { registerEventPointcut } from '../service/event.aspect';
+import { getReturnType } from '../../tools';
 
 /**
  * 发布
@@ -9,7 +9,7 @@ import { registerEventPointcut } from '../service/event.aspect';
 export function Publish(EventType?: Type<any>) {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     checkArgument(typeof target[propertyKey] === 'function', `${propertyKey} 必须标识实例方法`);
-    const returnType = Reflect.getOwnMetadata(DESIGN_RETURNTYPE, target, propertyKey);
+    const returnType = getReturnType(target, propertyKey);
     if (EventType) {
       checkArgument(returnType && returnType === EventType, `${propertyKey} 标识的方法返回值必须为指定类型`);
     }

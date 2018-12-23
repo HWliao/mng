@@ -13,12 +13,12 @@ export class LoginController implements OnDestroy {
     aop.weave(this);
   }
 
-  @Subscribe(LoginInit)
+  @Subscribe()
   init(init: LoginInit) {
     this.login.init(init);
   }
 
-  @Subscribe(LoginAuthentication)
+  @Subscribe()
   authentication(data: LoginAuthentication): void {
     console.log(data);
     this.login.submit = true;
