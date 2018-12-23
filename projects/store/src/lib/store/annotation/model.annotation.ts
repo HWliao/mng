@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { produce } from 'immer';
 import { AnyAction, Reducer } from 'redux';
-import { MD_MODEL_TOKEN, ModelConfig, ModelMetadata, StateKeyType, checkArgument } from '../definitions';
+import { checkArgument, MD_MODEL_TOKEN, ModelConfig, ModelMetadata, StateKeyType } from '../definitions';
 import { getParamtypes } from '../../tools';
 
 /**
@@ -82,6 +82,14 @@ export function Model(config: ModelConfig | string) {
       }
       proto = Reflect.getPrototypeOf(proto);
     }
+    // 为了支持属性setter,为statekeys对应的属性构造其setter对应的actionreducer
+    stateKeys.forEach(stateKey => {
+      const setterActionType = `${(<ModelConfig>config).name}.set ${stateKey}`;
+      // 这里的不要使用箭头函数,应当使用匿名函数,内部this需要动态替换
+      actionReducers[setterActionType] = function (v: any) {
+        this[stateKey] = v;
+      };
+    });
 
     // 定义默认的createAction
     // type为有效的actionKey
@@ -117,6 +125,7 @@ export function Model(config: ModelConfig | string) {
     Reflect.defineMetadata(MD_MODEL_TOKEN, modelMd, Target);
   };
 }
+
 /**
  * 从model中获取model元数据
  * @param model model类
@@ -124,12 +133,14 @@ export function Model(config: ModelConfig | string) {
 export function getModel(model: Type<any>): ModelMetadata {
   return Reflect.getOwnMetadata(MD_MODEL_TOKEN, model);
 }
+
 /**
  * 创建action type
  */
 export function createActionType(name: string, type: string) {
   return `${name}.${type}`;
 }
+
 /**
  * 转换model类的类型
  * @param c 目标model类

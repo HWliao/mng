@@ -81,7 +81,7 @@ export class StoreAspect implements Aspect {
 
       model.stateKeys.forEach(stateKey => {
         Reflect.defineProperty(proxy, stateKey, {
-          set: (v: any) => this.store.dispatch(createAction(`${modelName}.${stateKey}`, [v])),
+          set: (v: any) => this.store.dispatch(createAction(`${modelName}.set ${stateKey}`, [v])),
           get: () => this.store.getState()[modelName][stateKey],
           enumerable: true
         });
