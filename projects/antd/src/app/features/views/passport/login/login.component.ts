@@ -4,6 +4,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { LoginModel } from '../../../models/state/passport/login.model';
 import { AopService, Publish, Select } from 'store';
 import { LoginAuthentication, LoginInit } from '../../../models/state/passport/login.event';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'mz-login',
@@ -13,8 +14,8 @@ import { LoginAuthentication, LoginInit } from '../../../models/state/passport/l
 export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  @Select()
-  login: LoginModel;
+  @Select(LoginModel)
+  login: Observable<LoginModel>;
 
   constructor(
     fb: FormBuilder,
