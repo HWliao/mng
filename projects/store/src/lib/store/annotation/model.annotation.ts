@@ -11,7 +11,7 @@ const modelNameMap = {};
 
 /**
  * Model注解
- * @param model model配置
+ * @param config model配置
  */
 export function Model(config: ModelConfig | string) {
   config = typeof config === 'string' ? { name: config } : config;
