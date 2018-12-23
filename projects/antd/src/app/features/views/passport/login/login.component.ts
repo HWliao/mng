@@ -1,24 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
-import { LoginController } from '../../../controllers/passport/login.controller';
+import { LoginModel } from '../../../models/state/passport/login.model';
+import { AopService, Publish, Select } from 'store';
+import { LoginAuthentication, LoginInit } from '../../../models/state/passport/login.event';
 
 @Component({
   selector: 'mz-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   form: FormGroup;
-  error = '';
-  submitting = false;
+  @Select(LoginModel)
+  login: LoginModel;
 
   constructor(
     fb: FormBuilder,
     private msg: NzMessageService,
-    private login: LoginController
+    aop: AopService,
   ) {
+    aop.weave(this);
+
     this.form = fb.group({
       userName: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', Validators.required],
@@ -34,20 +38,26 @@ export class LoginComponent {
     return this.form.get('password');
   }
 
-  onSubmit() {
-    for (let key in this.form.controls) {
-      this.form.controls[key].markAsDirty();
-      this.form.controls[key].updateValueAndValidity();
+  @Publish(LoginAuthentication)
+  onSubmit(): LoginAuthentication {
+    for (const key in this.form.controls) {
+      if (this.form.controls.hasOwnProperty(key)) {
+        this.form.controls[key].markAsDirty();
+        this.form.controls[key].updateValueAndValidity();
+      }
     }
     if (!this.form.valid) {
       return;
     }
-    this.submitting = true;
-    this.login.authentication(this.form)
-      .finally(() => this.submitting = false)
-      .catch(err => this.error = err);
+    return new LoginAuthentication(<LoginAuthentication>this.form.value);
   }
+
   forgetPassword() {
-    this.msg.info("user/pwd: admin/admin");
+    this.msg.info('user/pwd: admin/admin');
+  }
+
+  @Publish()
+  ngOnInit(): any {
+    return new LoginInit();
   }
 }

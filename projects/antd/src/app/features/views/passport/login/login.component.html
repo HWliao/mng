@@ -1,5 +1,6 @@
 <form nz-form [formGroup]="form" (ngSubmit)="onSubmit()" role="form">
-  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-alert *ngIf="(login|async).error" [nzType]="'error'" [nzMessage]="(login|async).error" [nzShowIcon]="true"
+            class="mb-lg"></nz-alert>
   <nz-form-item>
     <nz-form-control nzHasFeedback>
       <nz-input-group [nzSize]="'large'" [nzPrefix]="prefixUser">
@@ -7,7 +8,7 @@
       </nz-input-group>
       <nz-form-explain *ngIf="userName.dirty && userName.errors">
         <ng-container *ngIf="userName.hasError('required')">请输入用户名</ng-container>
-        <ng-container *ngIf="userName.hasError('minlength')">至少输入{{userName.errors.minlength.requiredLength}}个字符
+        <ng-container *ngIf="userName.hasError('minlength')">至少输入{{userName.errors['minlength']['requiredLength']}}个字符
         </ng-container>
       </nz-form-explain>
     </nz-form-control>
@@ -32,7 +33,8 @@
   </nz-form-item>
   <nz-form-item>
     <nz-form-control>
-      <button type="submit" nz-button [nzSize]="'large'" [nzType]="'primary'" nzBlock [nzLoading]="submitting">登入</button>
+      <button type="submit" nz-button [nzSize]="'large'" [nzType]="'primary'" nzBlock [nzLoading]="(login|async).submit">登入
+      </button>
     </nz-form-control>
   </nz-form-item>
 </form>
