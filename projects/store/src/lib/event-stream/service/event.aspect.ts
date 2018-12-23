@@ -11,13 +11,15 @@ import { EventService } from './event.service';
 export function registerEventPointcut(target: Type<any>) {
   return registerPointcut(target, MD_EVENT_ASPECT, EventAspect);
 }
+
 /**
  * event stream aspect service
  */
 @Injectable({ providedIn: 'root' })
 export class EventAspect implements Aspect {
 
-  constructor(private event: EventService) { }
+  constructor(private event: EventService) {
+  }
 
   weave(target: any) {
     const constructor = getConstructor(target);
@@ -28,6 +30,7 @@ export class EventAspect implements Aspect {
     this.proxyPub(target, Object.values(pubMdObj));
     this.proxySub(target, Object.values(subMdObj));
   }
+
   /**
    * 代理订阅者
    * @param target 目标对象
@@ -48,11 +51,14 @@ export class EventAspect implements Aspect {
         warning(`存在订阅者的服务需要实现angular的OnDestroy,需要用于动态添加回收订阅的方法`);
       }
       target.ngOnDestroy = () => {
-        if (typeof ngOnDestroy === 'function') { Reflect.apply(ngOnDestroy, target, []); }
+        if (typeof ngOnDestroy === 'function') {
+          Reflect.apply(ngOnDestroy, target, []);
+        }
         subscribes.forEach(subscribe => this.event.unsubscribe(subscribe.event, subscribe.method));
       };
     }
   }
+
   /**
    * 代理发布者
    * @param target 对象
@@ -65,7 +71,10 @@ export class EventAspect implements Aspect {
         set: () => warning(`${pub.propertyKey} 不能通过setter赋值`),
         get: () => (...args: any[]) => {
           const data = Reflect.apply(method, target, args);
-          this.event.publish(data);
+          // 只有返回了值才进行发布
+          if (data !== null && data !== undefined) {
+            this.event.publish(data);
+          }
           return data;
         },
         enumerable: true
